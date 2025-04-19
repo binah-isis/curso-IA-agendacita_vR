@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RUAJ Alquimia en Movimiento</title>
+  <style>
+    :root {
+      --primario: #88c0d0;
+      --secundario: #e0f7fa;
+      --acento: #005f73;
+      --texto: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--secundario);
+      color: var(--texto);
+    }
+
+    header {
+      background-color: var(--acento);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    form {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: var(--primario);
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--acento);
+    }
+
+    @media (max-width: 600px) {
+      form {
+        padding: 20px;
+        margin: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RUAJ Alquimia en Movimiento</h1>
+  </header>
+
+  <form id="formulario">
+    <label for="nombre">Nombre completo:</label>
+    <input type="text" id="nombre" name="nombre" required>
+
+    <label for="edad">Edad:</label>
+    <input type="number" id="edad" name="edad" required>
+
+    <label for="genero">Género:</label>
+    <select id="genero" name="genero" required>
+      <option value="">Seleccione</option>
+      <option value="femenino">Femenino</option>
+      <option value="masculino">Masculino</option>
+      <option value="otro">Otro</option>
+    </select>
+
+    <label for="sangre">Tipo de sangre:</label>
+    <input type="text" id="sangre" name="sangre" required>
+
+    <label for="ocupacion">Ocupación:</label>
+    <input type="text" id="ocupacion" name="ocupacion" required>
+
+    <label for="contacto">Número de contacto:</label>
+    <input type="tel" id="contacto" name="contacto" required>
+
+    <label for="correo">Correo electrónico:</label>
+    <input type="email" id="correo" name="correo" required>
+
+    <label for="motivo">Motivo de la cita:</label>
+    <textarea id="motivo" name="motivo" rows="3" required></textarea>
+
+    <label for="fecha">Fecha deseada:</label>
+    <input type="date" id="fecha" name="fecha" required>
+
+    <label for="hora">Hora deseada:</label>
+    <input type="time" id="hora" name="hora" required>
+
+    <label for="modalidad">Tipo de consulta:</label>
+    <select id="modalidad" name="modalidad" required>
+      <option value="">Seleccione</option>
+      <option value="presencial">Presencial</option>
+      <option value="virtual">Virtual</option>
+    </select>
+
+    <button type="submit">Registrar Cita</button>
+  </form>
+
+  <script>
+    const formulario = document.getElementById('formulario');
+
+    formulario.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const datos = new FormData(formulario);
+
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyfKoo-wlcxgShzNDBKXWapWnABu-S2WICVS09XPEpUuQsmiKagTJlyxEe1hiNkh6aj/exec'; // Conectado a BD_clinica
+
+      try {
+        const respuesta = await fetch(scriptURL, {
+          method: 'POST',
+          body: datos
+        });
+
+        if (respuesta.ok) {
+          alert('Cita registrada exitosamente');
+          formulario.reset();
+        } else {
+          alert('Error al registrar la cita. Intente nuevamente.');
+        }
+      } catch (error) {
+        console.error('Error al enviar:', error);
+        alert('Error al conectar con el servidor.');
+      }
+    });
+  </script>
+</body>
+</html>
